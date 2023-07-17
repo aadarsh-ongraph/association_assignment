@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: one
+  feed: one
+  approved: false
+
+two:
+  group: two
+  feed: two
+  approved: false

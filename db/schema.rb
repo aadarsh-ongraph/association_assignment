@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_17_064103) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_17_070234) do
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "feed_id", null: false
@@ -27,6 +27,32 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_064103) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
+  create_table "group_feeds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "feed_id", null: false
+    t.boolean "approved"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_group_feeds_on_feed_id"
+    t.index ["group_id"], name: "index_group_feeds_on_group_id"
+  end
+
+  create_table "group_members", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_members_on_group_id"
+    t.index ["user_id"], name: "index_group_members_on_user_id"
+  end
+
+  create_table "groups", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "group_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -57,6 +83,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_064103) do
   add_foreign_key "comments", "feeds"
   add_foreign_key "comments", "users"
   add_foreign_key "feeds", "users"
+  add_foreign_key "group_feeds", "feeds"
+  add_foreign_key "group_feeds", "groups"
+  add_foreign_key "group_members", "groups"
+  add_foreign_key "group_members", "users"
   add_foreign_key "images", "feeds"
   add_foreign_key "likes", "feeds"
   add_foreign_key "likes", "users"
